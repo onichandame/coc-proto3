@@ -1,8 +1,8 @@
 'use strict';
 
-import vscode = require('vscode');
+import vscode from 'coc.nvim';
 
 export const PROTO3_MODE: vscode.DocumentFilter = {
-    language: 'proto3',
-    scheme: 'file'
+  language: 'proto',
+  scheme: 'file',
 };
