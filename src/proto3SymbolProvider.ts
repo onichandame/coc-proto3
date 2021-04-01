@@ -6,7 +6,6 @@ import {
   Position,
   ProviderResult,
   SymbolInformation,
-  SymbolKind,
   TextDocument,
 } from 'coc.nvim';
 import { tokenize } from 'protobufjs';
@@ -16,7 +15,7 @@ type ProvideSymbolsResult = ProviderResult<SymbolInformation[] | DocumentSymbol[
 export class Proto3DocumentSymbolProvider implements DocumentSymbolProvider {
   constructor(private state: 'free' | 'rpc' | 'message' = 'free') {}
 
-  provideDocumentSymbols(doc: TextDocument, token: CancellationToken): ProvideSymbolsResult {
+  provideDocumentSymbols: DocumentSymbolProvider['provideDocumentSymbols'] = (doc, token) => {
     const ret: SymbolInformation[] = [];
 
     const tokenizer = tokenize(doc.getText(), false);
@@ -55,5 +54,5 @@ export class Proto3DocumentSymbolProvider implements DocumentSymbolProvider {
     }
 
     return ret;
-  }
+  };
 }
