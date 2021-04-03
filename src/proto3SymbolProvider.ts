@@ -1,21 +1,10 @@
-import {
-  CancellationToken,
-  DocumentSymbol,
-  DocumentSymbolProvider,
-  Location,
-  Position,
-  ProviderResult,
-  SymbolInformation,
-  TextDocument,
-} from 'coc.nvim';
+import { DocumentSymbolProvider, Location, Range, SymbolInformation } from 'coc.nvim';
 import { tokenize } from 'protobufjs';
-
-type ProvideSymbolsResult = ProviderResult<SymbolInformation[] | DocumentSymbol[]>;
 
 export class Proto3DocumentSymbolProvider implements DocumentSymbolProvider {
   constructor(private state: 'free' | 'rpc' | 'message' = 'free') {}
 
-  provideDocumentSymbols: DocumentSymbolProvider['provideDocumentSymbols'] = (doc, token) => {
+  provideDocumentSymbols: DocumentSymbolProvider['provideDocumentSymbols'] = (doc) => {
     const ret: SymbolInformation[] = [];
 
     const tokenizer = tokenize(doc.getText(), false);
@@ -45,9 +34,12 @@ export class Proto3DocumentSymbolProvider implements DocumentSymbolProvider {
             continue;
           }
 
-          const location = new Location(doc.uri, new Position(tokenizer.line - 1, 0));
-          const kind = this.state === 'message' ? SymbolKind.Class : SymbolKind.Method;
-          ret.push(new SymbolInformation(tok, kind, '', location));
+          const location = Location.create(
+            doc.uri,
+            Range.create(tokenizer.line - 1, 0, Number.MAX_VALUE, Number.MAX_VALUE)
+          );
+          const kind = this.state === 'message' ? 11 : 9;
+          ret.push({ kind, location, name: tok });
           this.state = 'free';
           break;
       }
