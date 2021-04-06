@@ -1,14 +1,15 @@
-import { DocumentSymbolProvider, Location, Range, SymbolInformation } from 'coc.nvim';
+import { window, DocumentSymbolProvider, Location, Range, SymbolInformation } from 'coc.nvim';
 import { tokenize } from 'protobufjs';
 
 export class Proto3DocumentSymbolProvider implements DocumentSymbolProvider {
   constructor(private state: 'free' | 'rpc' | 'message' = 'free') {}
 
   provideDocumentSymbols: DocumentSymbolProvider['provideDocumentSymbols'] = (doc) => {
+    window.showMessage(`hi symbol`);
     const ret: SymbolInformation[] = [];
 
     const tokenizer = tokenize(doc.getText(), false);
-    for (;;) {
+    while (true) {
       const tok = tokenizer.next();
       if (tok === null) {
         break;

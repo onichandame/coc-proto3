@@ -2,31 +2,14 @@ import * as path from 'path';
 
 import vscode from 'coc.nvim';
 import cp from 'child_process';
-import { Proto3CompletionItemProvider } from './proto3Suggest';
 import { Proto3LanguageDiagnosticProvider } from './proto3Diagnostic';
 import { Proto3Compiler } from './proto3Compiler';
 import { PROTO3_MODE } from './proto3Mode';
-import { Proto3DefinitionProvider } from './proto3Definition';
 import { Proto3Configuration } from './proto3Configuration';
-import { Proto3DocumentSymbolProvider } from './proto3SymbolProvider';
 
 export function activate(ctx: vscode.ExtensionContext): void {
-  ctx.subscriptions.push(
-    vscode.languages.registerCompletionItemProvider(
-      `proto3`,
-      `proto3`,
-      `proto3`,
-      new Proto3CompletionItemProvider(),
-      ['.'],
-      10,
-      ['"']
-    )
-  );
-  ctx.subscriptions.push(vscode.languages.registerDefinitionProvider([PROTO3_MODE], new Proto3DefinitionProvider()));
-
+  ctx.subscriptions.push();
   const diagnosticProvider = new Proto3LanguageDiagnosticProvider();
-
-  vscode.languages.registerDocumentSymbolProvider([{ language: `proto3` }], new Proto3DocumentSymbolProvider());
 
   vscode.workspace.onDidSaveTextDocument((event) => {
     if (event.languageId == 'proto3') {

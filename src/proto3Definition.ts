@@ -25,7 +25,7 @@ export class Proto3DefinitionProvider implements vscode.DefinitionProvider {
 
     const importRegExp = new RegExp(`^\\s*import\\s+(\'|")((\\w+\/)*${targetDefinition})(\'|")\\s*;.*$`, 'i');
     const matchedGroups = importRegExp.exec(lineText);
-    if (matchedGroups && matchedGroups.length == 5) {
+    if (matchedGroups && matchedGroups.length === 5) {
       const importFilePath = matchedGroups[2];
       const location = this.findImportDefinition(importFilePath);
       if (location) {
@@ -36,14 +36,19 @@ export class Proto3DefinitionProvider implements vscode.DefinitionProvider {
     const messageOrEnumPattern = `\\s*(\\w+\\.)*\\w+\\s*`;
     const messageFieldPattern = `\\s+\\w+\\s*=\\s*\\d+;.*`;
     const rpcReqOrRspPattern = `\\s*\\(\\s*(stream\\s+)?${messageOrEnumPattern}\\s*\\)\\s*`;
+    const lineEndPattern = `\\n*$`;
 
-    const messageRegExp = new RegExp(`^\\s*(repeated){0,1}(${messageOrEnumPattern})${messageFieldPattern}$`, 'i');
+    const messageRegExp = new RegExp(
+      `^\\s*(repeated){0,1}(${messageOrEnumPattern})${messageFieldPattern}${lineEndPattern}`,
+      'i'
+    );
     const messageInMap = new RegExp(
-      `^\\s*map\\s*<${messageOrEnumPattern},${messageOrEnumPattern}>${messageFieldPattern}$`,
+      `^\\s*map\\s*<${messageOrEnumPattern},${messageOrEnumPattern}>${messageFieldPattern}${lineEndPattern}`,
       'i'
     );
     const messageInRpcRegExp = new RegExp(
-      `^\\s*rpc\\s*\\w+${rpcReqOrRspPattern}returns${rpcReqOrRspPattern}[;{].*$`,
+      //`^\\s*rpc\\s*\\w+${rpcReqOrRspPattern}returns${rpcReqOrRspPattern}[;{].*$`,
+      `^\\s*rpc\\s*\\w+${rpcReqOrRspPattern}returns`,
       'i'
     );
 
@@ -55,7 +60,7 @@ export class Proto3DefinitionProvider implements vscode.DefinitionProvider {
       vscode.window.showErrorMessage(`Could not find ${targetDefinition} definition.`);
     }
 
-    return undefined;
+    return;
   };
 
   private async findEnumOrMessageDefinition(

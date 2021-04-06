@@ -8,6 +8,7 @@ let kwImport = createCompletionKeyword('import');
 let kwMessage = createCompletionKeyword('message');
 let kwEnum = createCompletionKeyword('enum');
 let kwReserved = createCompletionKeyword('reserved');
+let kwService = createCompletionKeyword('service');
 
 let fileOptions = [
   createCompletionOption(
@@ -354,6 +355,7 @@ function createCompletionOption(label: string, doc: string) {
 
 export class Proto3CompletionItemProvider implements vscode.CompletionItemProvider {
   public provideCompletionItems: vscode.CompletionItemProvider['provideCompletionItems'] = (document, position) => {
+    console.error(`hi`);
     return new Promise<vscode.CompletionItem[]>((resolve) => {
       let lineText = document.getText(vscode.Range.create(position.line, -1, position.line, Number.MAX_VALUE));
 
@@ -377,6 +379,7 @@ export class Proto3CompletionItemProvider implements vscode.CompletionItemProvid
             suggestions.push(kwImport);
             suggestions.push(kwMessage);
             suggestions.push(kwEnum);
+            suggestions.push(kwService);
           } else if (textBeforeCursor.match(/^\s*option\s+\w*$/)) {
             suggestions.push(...fileOptions);
           }

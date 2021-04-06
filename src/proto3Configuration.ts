@@ -21,11 +21,10 @@ export class Proto3Configuration {
     return this._configResolver.resolve(this._config.get<string>('path', protoc));
   }
 
-  public getProtoSourcePath(): string {
-    let activeEditor = vscode.window.activeTextEditor;
-    let activeEditorUri = activeEditor.document.uri;
-    let activeWorkspaceFolder = vscode.workspace.getWorkspaceFolder(activeEditorUri);
-    return this._configResolver.resolve(this._config.get<string>('compile_all_path', activeWorkspaceFolder.uri.path));
+  public async getProtoSourcePath() {
+    return this._configResolver.resolve(
+      this._config.get<string>('compile_all_path', (await vscode.workspace.document).uri)
+    );
   }
 
   public getProtocArgs(): string[] {
@@ -44,8 +43,8 @@ export class Proto3Configuration {
     return this.getProtocOptions().filter((opt) => opt.startsWith('--proto_path') || opt.startsWith('-I'));
   }
 
-  public getAllProtoPaths(): string[] {
-    return this.getProtocArgFiles().concat(ProtoFinder.fromDir(this.getProtoSourcePath()));
+  public async getAllProtoPaths() {
+    return this.getProtocArgFiles().concat(ProtoFinder.fromDir(await this.getProtoSourcePath()));
   }
 
   public compileOnSave(): boolean {
@@ -161,4 +160,3 @@ class ConfigurationResolver {
     });
   }
 }
-

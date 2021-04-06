@@ -21,7 +21,8 @@
   "prettier": {
     "singleQuote": true,
     "printWidth": 120,
-    "semi": true
+    "semi": true,
+    "trailingComma": "es5"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.8.2",

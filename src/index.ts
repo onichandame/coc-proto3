@@ -1,54 +1,18 @@
-import { commands, CompleteResult, ExtensionContext, listManager, sources, window, workspace } from 'coc.nvim';
-import DemoList from './lists';
+import { window, workspace, languages, ExtensionContext } from 'coc.nvim';
+
+import { PROTO3_MODE } from './proto3Mode';
+import { Proto3CompletionItemProvider } from './proto3Suggest';
+import { Proto3Compiler } from './proto3Compiler';
+import { Proto3DefinitionProvider } from './proto3Definition';
 
 export async function activate(context: ExtensionContext): Promise<void> {
-  window.showMessage(`coc-proto3 works!`);
-
   context.subscriptions.push(
-    commands.registerCommand('coc-proto3.Command', async () => {
-      window.showMessage(`coc-proto3 Commands works!`);
-    }),
-
-    listManager.registerList(new DemoList(workspace.nvim)),
-
-    sources.createSource({
-      name: 'coc-proto3 completion source', // unique id
-      doComplete: async () => {
-        const items = await getCompletionItems();
-        return items;
-      },
-    }),
-
-    workspace.registerKeymap(
-      ['n'],
-      'proto3-keymap',
-      async () => {
-        window.showMessage(`registerKeymap`);
-      },
-      { sync: false }
-    ),
-
-    workspace.registerAutocmd({
-      event: 'InsertLeave',
-      request: true,
-      callback: () => {
-        window.showMessage(`registerAutocmd on InsertLeave`);
-      },
-    })
+    languages.registerCompletionItemProvider(`proto3`, `proto3`, `proto`, new Proto3CompletionItemProvider(), ['.']),
+    languages.registerDefinitionProvider([PROTO3_MODE], new Proto3DefinitionProvider())
   );
-}
-
-async function getCompletionItems(): Promise<CompleteResult> {
-  return {
-    items: [
-      {
-        word: 'TestCompletionItem 1',
-        menu: '[coc-proto3]',
-      },
-      {
-        word: 'TestCompletionItem 2',
-        menu: '[coc-proto3]',
-      },
-    ],
-  };
+  workspace.onDidSaveTextDocument((e) => {
+    if (e.languageId === `proto`) {
+      const folder = workspace.getWorkspaceFolder(e.uri);
+    }
+  });
 }

@@ -40,19 +40,16 @@ export class Proto3Scope {
 class ScopeGuesser {
   private currentScope?: Proto3Scope;
   private scopeAtCursor?: Proto3Scope;
-  private cursorLineNum: number;
   private syntax = 2;
 
-  constructor(cursorLineNum: number) {
-    this.cursorLineNum = cursorLineNum;
-  }
+  constructor(private cursorLineNum: number) {}
 
   guess(doc: vscode.TextDocument): Proto3Scope {
     this.enterScope(Proto3ScopeKind.Proto, 0);
     for (var i = 0; i < doc.lineCount; i++) {
       var lineText = doc.getText(vscode.Range.create(i, -1, i, Number.MAX_VALUE));
-      if (!lineText.trim()) {
-        if (this.currentScope && this.currentScope.kind == Proto3ScopeKind.Comment) {
+      if (lineText.trim()) {
+        if (this.currentScope && this.currentScope.kind === Proto3ScopeKind.Comment) {
           if (lineText.match(/.*\*\/\s*$/)) {
             this.exitScope(i); // exit block comment
           }
