@@ -3,7 +3,7 @@ import path from 'path';
 import fs from 'fs';
 
 export class Proto3Configuration {
-  private readonly _configSection: string = 'protoc';
+  private readonly _configSection: string = 'coc-proto3.protoc';
   private _config: vscode.WorkspaceConfiguration;
   private _configResolver: ConfigurationResolver;
 
@@ -18,7 +18,7 @@ export class Proto3Configuration {
 
   public getProtocPath(protocInPath: boolean): string {
     let protoc = protocInPath ? 'protoc' : '?';
-    return this._configResolver.resolve(this._config.get<string>('path', protoc));
+    return this._configResolver.resolve(this._config.get<string>('coc-proto3.protoc.path', protoc));
   }
 
   public async getProtoSourcePath() {

@@ -18,34 +18,34 @@ export class Proto3Compiler {
     }
   }
 
-  public compileAllProtos() {
+  public async compileAllProtos() {
     let args = this._config.getProtocOptions();
     // Compile in batch produces errors. Must be 1 by 1.
-    this._config.getAllProtoPaths().forEach((proto) => {
-      this.runProtoc(args.concat(proto), undefined, (stdout, stderr) => {
+    (await this._config.getAllProtoPaths()).forEach((proto) => {
+      this.runProtoc(args.concat(proto), undefined, (_, stderr) => {
         vscode.window.showErrorMessage(stderr);
       });
     });
   }
 
-  public compileActiveProto() {
-    let editor = vscode.window.activeTextEditor;
-    if (editor && editor.document.languageId == 'proto3') {
-      let fileName = editor.document.fileName;
+  public compileAProto(doc: vscode.TextDocument) {
+    if (doc.languageId == 'proto') {
+      let fileName = path.basename(doc.uri.split(`file://`).splice(1, Number.MAX_VALUE).join(``));
       let args = this._config.getProtocOptions().concat(fileName);
+      vscode.window.showMessage(args.join(` `));
 
-      this.runProtoc(args, undefined, (stdout, stderr) => {
-        vscode.window.showErrorMessage(stderr);
+      this.runProtoc(args, undefined, (_, stderr) => {
+        if (stderr) vscode.window.showErrorMessage(stderr);
       });
     }
   }
 
   public compileProtoToTmp(fileName: string, callback?: (stderr: string) => void) {
-    let proto = path.relative(vscode.workspace.rootPath, fileName);
+    let proto = path.relative(vscode.workspace.root, fileName);
 
     let args = this._config.getProtoPathOptions().concat(proto);
 
-    this.runProtoc(args, undefined, (stdout, stderr) => {
+    this.runProtoc(args, undefined, (_, stderr) => {
       if (callback) {
         callback(stderr);
       }
@@ -54,14 +54,11 @@ export class Proto3Compiler {
 
   private runProtoc(args: string[], opts?: cp.ExecFileOptions, callback?: (stdout: string, stderr: string) => void) {
     let protocPath = this._config.getProtocPath(this._isProtocInPath);
-    if (protocPath == '?') {
+    if (protocPath === '?') {
       return; // protoc is not configured
     }
 
-    if (!opts) {
-      opts = {};
-    }
-    opts = Object.assign(opts, { cwd: vscode.workspace.rootPath });
+    opts = Object.assign({}, opts, { cwd: vscode.workspace.root });
     cp.execFile(protocPath, args, opts, (err, stdout, stderr) => {
       if (err && stdout.length == 0 && stderr.length == 0) {
         // Assume the OS error if no messages to buffers because
@@ -76,4 +73,3 @@ export class Proto3Compiler {
     });
   }
 }
-

@@ -7,6 +7,7 @@
     "sourceMap": true,
     "outDir": "lib",
     "strict": true,
+    "strictNullChecks":false,
     "moduleResolution": "node",
     "noImplicitAny": false,
     "esModuleInterop": true

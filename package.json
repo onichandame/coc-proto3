@@ -44,10 +44,29 @@
       "type": "object",
       "title": "coc-proto3 configuration",
       "properties": {
-        "coc-proto3.enabled": {
+        "coc-proto3.compileOnSave": {
           "type": "boolean",
-          "default": true,
-          "description": "Enable coc-proto3 extension"
+          "default": false,
+          "description": "compile proto on save"
+        },
+        "coc-proto3.protoc": {
+          "type": "object",
+          "title": "coc proto3 configuration",
+          "properties": {
+            "path": {
+              "type": "string",
+              "default": "protoc",
+              "description": "Path to proto compiler"
+            },
+            "options": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": [],
+              "description": "CLI options passed to proto compiler"
+            }
+          }
         }
       }
     },
