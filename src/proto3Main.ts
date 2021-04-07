@@ -2,30 +2,9 @@ import * as path from 'path';
 
 import vscode from 'coc.nvim';
 import cp from 'child_process';
-import { Proto3Compiler } from './proto3Compiler';
 import { PROTO3_MODE } from './proto3Mode';
 
 export function activate(ctx: vscode.ExtensionContext): void {
-  ctx.subscriptions.push(
-    vscode.commands.registerCommand('proto3.compile.one', () => {
-      const currentFile = vscode.window.activeTextEditor?.document;
-      const workspaceFolder = vscode.workspace.getWorkspaceFolder(currentFile.uri);
-      const compiler = new Proto3Compiler(workspaceFolder);
-      compiler.compileActiveProto();
-    })
-  );
-
-  ctx.subscriptions.push(
-    vscode.commands.registerCommand('proto3.compile.all', () => {
-      const currentFile = vscode.window.activeTextEditor?.document;
-      const workspaceFolder = vscode.workspace.getWorkspaceFolder(currentFile.uri);
-      const compiler = new Proto3Compiler(workspaceFolder);
-      compiler.compileAllProtos();
-    })
-  );
-
-  //console.log('Congratulations, your extension "vscode-pb3" is now active!');
-
   vscode.languages.setLanguageConfiguration(PROTO3_MODE.language, {
     indentationRules: {
       // ^(.*\*/)?\s*\}.*$
@@ -90,7 +69,7 @@ export function activate(ctx: vscode.ExtensionContext): void {
       return [
         new vscode.TextEdit(
           document.validateRange(new vscode.Range(0, 0, Infinity, Infinity)),
-          stdout ? stdout.toString() : ''
+          stdout ? stdout.toString() : '',
         ),
       ];
     },
