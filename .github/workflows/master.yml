@@ -1,0 +1,22 @@
+name: Master
+on:
+  push:
+    branches:
+      - main
+      - master
+jobs:
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull repo
+        uses: actions/checkout@v2
+
+      - name: Build
+        run: yarn
+
+      - name: Publish
+        uses: onichandame/github-action-npm-publish@v0.1.6
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

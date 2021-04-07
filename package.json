@@ -1,6 +1,6 @@
 {
-  "name": "coc-proto3",
-  "version": "0.0.0-development",
+  "name": "@onichandame/coc-proto3",
+  "version": "0.0.0",
   "description": "",
   "author": "onichandame <zxinmyth@gmail.com>",
   "license": "MIT",
