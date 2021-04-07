@@ -1,4 +1,4 @@
-import { commands, workspace, languages, ExtensionContext } from 'coc.nvim';
+import { window, commands, workspace, languages, ExtensionContext } from 'coc.nvim';
 
 import { PROTO3_MODE } from './proto3Mode';
 import { Proto3CompletionItemProvider } from './proto3Suggest';

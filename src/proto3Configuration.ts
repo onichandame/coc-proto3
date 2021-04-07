@@ -3,7 +3,7 @@ import path from 'path';
 import fs from 'fs';
 
 export class Proto3Configuration {
-  private readonly _configSection: string = 'coc-proto3.protoc';
+  private readonly _configSection: string = 'coc-proto3';
   private _config: vscode.WorkspaceConfiguration;
   private _configResolver: ConfigurationResolver;
 
@@ -18,7 +18,7 @@ export class Proto3Configuration {
 
   public getProtocPath(protocInPath: boolean): string {
     let protoc = protocInPath ? 'protoc' : '?';
-    return this._configResolver.resolve(this._config.get<string>('coc-proto3.protoc.path', protoc));
+    return this._configResolver.resolve(this._config.get<string>('protoc.path', protoc));
   }
 
   public async getProtoSourcePath() {
@@ -35,7 +35,7 @@ export class Proto3Configuration {
   }
 
   public getProtocArgs(): string[] {
-    return this._configResolver.resolve(this._config.get<string[]>('options', []));
+    return this._configResolver.resolve(this._config.get<string[]>('protoc.options', []));
   }
 
   public getProtocArgFiles(): string[] {
@@ -54,8 +54,8 @@ export class Proto3Configuration {
     return this.getProtocArgFiles().concat(ProtoFinder.fromDir(await this.getProtoSourcePath()));
   }
 
-  public compileOnSave(): boolean {
-    return this._config.get<boolean>('compile_on_save', false);
+  public get compileOnSave(): boolean {
+    return this._config.get<boolean>('compileOnSave', false);
   }
 }
 
