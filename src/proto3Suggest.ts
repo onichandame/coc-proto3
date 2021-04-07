@@ -18,7 +18,7 @@ Sets the Java package where classes generated from this .proto will be
 placed.  By default, the proto package is used, but this is often
 inappropriate because proto packages do not normally start with backwards
 domain names.
-    `
+    `,
   ),
   createCompletionOption(
     'java_outer_classname',
@@ -28,7 +28,7 @@ outer class with the given name.  This applies to both Proto1
 (equivalent to the old "--one_java_file" option) and Proto2 (where
 a .proto always translates to a single class, but you may want to
 explicitly choose the class name).
-    `
+    `,
   ),
   createCompletionOption(
     'java_multiple_files',
@@ -39,7 +39,7 @@ file.  Thus, these types will *not* be nested inside the outer class
 named by java_outer_classname.  However, the outer class will still be
 generated to contain the file's getDescriptor() method as well as any
 top-level extensions defined in the file.
-    `
+    `,
   ),
   createCompletionOption(
     'java_generate_equals_and_hash',
@@ -56,7 +56,7 @@ equals() and hashCode() to more closely match those of the full runtime;
 the generated methods compute their results based on field values rather
 than object identity. (Implementations should not assume that hashcodes
 will be consistent across runtimes or versions of the protocol compiler.)
-    `
+    `,
   ),
   createCompletionOption(
     'java_string_check_utf8',
@@ -67,13 +67,13 @@ byte sequence to a string field.
 Message reflection will do the same.
 However, an extension field still accepts non-UTF-8 byte sequences.
 This option has no effect on when used with the lite runtime.
-    `
+    `,
   ),
   createCompletionOption(
     'optimize_for',
     `
 Generated classes can be optimized for speed or code size.
-    `
+    `,
   ),
   createCompletionOption(
     'go_package',
@@ -83,7 +83,7 @@ placed. If omitted, the Go package will be derived from the following:
   - The basename of the package import path, if provided.
   - Otherwise, the package statement in the .proto file, if present.
   - Otherwise, the basename of the .proto file, without extension.
-    `
+    `,
   ),
   //createCompletionOption('cc_generic_services'),
   //createCompletionOption('java_generic_services'),
@@ -95,27 +95,27 @@ Is this file deprecated?
 Depending on the target platform, this can emit Deprecated annotations
 for everything in the file, or it will be completely ignored; in the very
 least, this is a formalization for deprecating files.
-    `
+    `,
   ),
   createCompletionOption(
     'cc_enable_arenas',
     `
 Enables the use of arenas for the proto messages in this file. This applies
 only to generated classes for C++.
-    `
+    `,
   ),
   createCompletionOption(
     'objc_class_prefix',
     `
 Sets the objective c class prefix which is prepended to all objective c
 generated classes from this .proto. There is no default.
-    `
+    `,
   ),
   createCompletionOption(
     'csharp_namespace',
     `
 Namespace for generated classes; defaults to the package.
-    `
+    `,
   ),
 ];
 
@@ -127,7 +127,7 @@ Set true to use the old proto1 MessageSet wire format for extensions.
 This is provided for backwards-compatibility with the MessageSet wire
 format.  You should not use this for any other reason:  It's less
 efficient, has fewer features, and is more complicated.
-    `
+    `,
   ),
   createCompletionOption(
     'no_standard_descriptor_accessor',
@@ -135,7 +135,7 @@ efficient, has fewer features, and is more complicated.
 Disables the generation of the standard "descriptor()" accessor, which can
 conflict with a field of the same name.  This is meant to make migration
 from proto1 easier; new code should avoid fields named "descriptor".
-    `
+    `,
   ),
   createCompletionOption(
     'deprecated',
@@ -144,7 +144,7 @@ Is this message deprecated?
 Depending on the target platform, this can emit Deprecated annotations
 for the message, or it will be completely ignored; in the very least,
 this is a formalization for deprecating messages.
-    `
+    `,
   ),
   //createCompletionOption('map_entry', ``),
 ];
@@ -159,7 +159,7 @@ a more efficient representation on the wire. Rather than repeatedly
 writing the tag and type for each element, the entire array is encoded as
 a single length-delimited blob. In proto3, only explicit setting it to
 false will avoid using packed encoding.
-    `
+    `,
   ),
   createCompletionOption(
     'jstype',
@@ -173,7 +173,7 @@ numbers.  Specifying JS_NUMBER for the jstype causes the generated
 JavaScript code to use the JavaScript "number" type instead of strings.
 This option is an enum to permit additional types to be added,
 e.g. goog.math.Integer.
-    `
+    `,
   ),
   createCompletionOption(
     'lazy',
@@ -206,7 +206,7 @@ must be consistent about it.  That is, for any particular sub-message, the
 implementation must either *always* check its required fields, or *never*
 check its required fields, regardless of whether or not the message has
 been parsed.
-    `
+    `,
   ),
   createCompletionOption(
     'deprecated',
@@ -215,7 +215,7 @@ Is this field deprecated?
 Depending on the target platform, this can emit Deprecated annotations
 for accessors, or it will be completely ignored; in the very least, this
 is a formalization for deprecating fields.
-    `
+    `,
   ),
 ];
 
@@ -227,7 +227,7 @@ let enumOptions = [
     `
 Set this option to true to allow mapping different tag names to the same
 value.
-    `
+    `,
   ),
   createCompletionOption(
     'deprecated',
@@ -236,7 +236,7 @@ Is this enum deprecated?
 Depending on the target platform, this can emit Deprecated annotations
 for the enum, or it will be completely ignored; in the very least, this
 is a formalization for deprecating enums.
-    `
+    `,
   ),
 ];
 
@@ -277,7 +277,7 @@ let scalaTypes = [
     `
 Uses variable-length encoding. 
 Inefficient for encoding negative numbers – if your field is likely to have 
-negative values, use sint32 instead.`
+negative values, use sint32 instead.`,
   ),
   createCompletionKeyword(
     'int64',
@@ -285,7 +285,7 @@ negative values, use sint32 instead.`
 Uses variable-length encoding. 
 Inefficient for encoding negative numbers – if your field is likely to have 
 negative values, use sint64 instead.    
-    `
+    `,
   ),
   createCompletionKeyword('uint32', `Uses variable-length encoding.`),
   createCompletionKeyword('uint64', `Uses variable-length encoding.`),
@@ -295,7 +295,7 @@ negative values, use sint64 instead.
 Uses variable-length encoding. 
 Signed int value. 
 These more efficiently encode negative numbers than regular int32s.    
-    `
+    `,
   ),
   createCompletionKeyword(
     'sint64',
@@ -303,21 +303,21 @@ These more efficiently encode negative numbers than regular int32s.
 Uses variable-length encoding. 
 Signed int value. 
 These more efficiently encode negative numbers than regular int64s.    
-    `
+    `,
   ),
   createCompletionKeyword(
     'fixed32',
     `
 Always four bytes. 
 More efficient than uint32 if values are often greater than 2^28.    
-    `
+    `,
   ),
   createCompletionKeyword(
     'fixed64',
     `
 Always eight bytes. 
 More efficient than uint64 if values are often greater than 2^56.    
-    `
+    `,
   ),
   createCompletionKeyword('sfixed32', `Always four bytes.`),
   createCompletionKeyword('sfixed64', `Always eight bytes.`),
@@ -327,13 +327,13 @@ More efficient than uint64 if values are often greater than 2^56.
     'string',
     `
 A string must always contain UTF-8 encoded or 7-bit ASCII text.
-    `
+    `,
   ),
   createCompletionKeyword(
     'bytes',
     `
 May contain any arbitrary sequence of bytes.
-    `
+    `,
   ),
 ];
 
@@ -355,7 +355,6 @@ function createCompletionOption(label: string, doc: string) {
 
 export class Proto3CompletionItemProvider implements vscode.CompletionItemProvider {
   public provideCompletionItems: vscode.CompletionItemProvider['provideCompletionItems'] = (document, position) => {
-    console.error(`hi`);
     return new Promise<vscode.CompletionItem[]>((resolve) => {
       let lineText = document.getText(vscode.Range.create(position.line, -1, position.line, Number.MAX_VALUE));
 

@@ -40,16 +40,16 @@ export class Proto3DefinitionProvider implements vscode.DefinitionProvider {
 
     const messageRegExp = new RegExp(
       `^\\s*(repeated){0,1}(${messageOrEnumPattern})${messageFieldPattern}${lineEndPattern}`,
-      'i'
+      'i',
     );
     const messageInMap = new RegExp(
       `^\\s*map\\s*<${messageOrEnumPattern},${messageOrEnumPattern}>${messageFieldPattern}${lineEndPattern}`,
-      'i'
+      'i',
     );
     const messageInRpcRegExp = new RegExp(
-      //`^\\s*rpc\\s*\\w+${rpcReqOrRspPattern}returns${rpcReqOrRspPattern}[;{].*$`,
-      `^\\s*rpc\\s*\\w+${rpcReqOrRspPattern}returns`,
-      'i'
+      `^\\s*rpc\\s*\\w+${rpcReqOrRspPattern}returns${rpcReqOrRspPattern}[;{].*${lineEndPattern}`,
+      //`^\\s*rpc\\s*\\w+${rpcReqOrRspPattern}returns`,
+      'i',
     );
 
     if (messageRegExp.test(lineText) || messageInRpcRegExp.test(lineText) || messageInMap.test(lineText)) {
@@ -65,7 +65,7 @@ export class Proto3DefinitionProvider implements vscode.DefinitionProvider {
 
   private async findEnumOrMessageDefinition(
     document: vscode.TextDocument,
-    target: string
+    target: string,
   ): Promise<vscode.Location | undefined> {
     const searchPaths = Proto3Import.getImportedFilePathsOnDocument(document);
 
@@ -109,7 +109,7 @@ export class Proto3DefinitionProvider implements vscode.DefinitionProvider {
     lineIndex: number,
     line: string,
     target: string,
-    definitionRegexMatch: RegExpExecArray
+    definitionRegexMatch: RegExpExecArray,
   ): vscode.Range {
     const matchedStr = definitionRegexMatch[0];
     const index = line.indexOf(matchedStr) + matchedStr.indexOf(target);
