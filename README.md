@@ -1,6 +1,9 @@
 # coc-proto3
 
+coc.nvim extension for protobuf. Features include:
 
+- [x] go-to definition
+- [x] compile proto
 
 ## Install
 

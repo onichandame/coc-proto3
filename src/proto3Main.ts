@@ -2,26 +2,10 @@ import * as path from 'path';
 
 import vscode from 'coc.nvim';
 import cp from 'child_process';
-import { Proto3LanguageDiagnosticProvider } from './proto3Diagnostic';
 import { Proto3Compiler } from './proto3Compiler';
 import { PROTO3_MODE } from './proto3Mode';
-import { Proto3Configuration } from './proto3Configuration';
 
 export function activate(ctx: vscode.ExtensionContext): void {
-  ctx.subscriptions.push();
-  const diagnosticProvider = new Proto3LanguageDiagnosticProvider();
-
-  vscode.workspace.onDidSaveTextDocument((event) => {
-    if (event.languageId == 'proto3') {
-      const workspaceFolder = vscode.workspace.getWorkspaceFolder(event.uri);
-      const compiler = new Proto3Compiler(workspaceFolder);
-      diagnosticProvider.createDiagnostics(event, compiler);
-      if (Proto3Configuration.Instance(workspaceFolder).compileOnSave()) {
-        compiler.compileActiveProto();
-      }
-    }
-  });
-
   ctx.subscriptions.push(
     vscode.commands.registerCommand('proto3.compile.one', () => {
       const currentFile = vscode.window.activeTextEditor?.document;

@@ -22,7 +22,7 @@
     "singleQuote": true,
     "printWidth": 120,
     "semi": true,
-    "trailingComma": "es5"
+    "trailingComma": "all"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.8.2",

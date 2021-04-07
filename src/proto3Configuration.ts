@@ -23,7 +23,14 @@ export class Proto3Configuration {
 
   public async getProtoSourcePath() {
     return this._configResolver.resolve(
-      this._config.get<string>('compile_all_path', (await vscode.workspace.document).uri)
+      this._config.get<string>(
+        'compile_all_path',
+        vscode.workspace
+          .getWorkspaceFolder((await vscode.workspace.document).uri)
+          .uri.split(`file://`)
+          .splice(1, Number.MAX_VALUE)
+          .join(``),
+      ),
     );
   }
 

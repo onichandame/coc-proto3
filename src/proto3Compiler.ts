@@ -22,8 +22,9 @@ export class Proto3Compiler {
     let args = this._config.getProtocOptions();
     // Compile in batch produces errors. Must be 1 by 1.
     (await this._config.getAllProtoPaths()).forEach((proto) => {
+      vscode.window.showMessage(proto);
       this.runProtoc(args.concat(proto), undefined, (_, stderr) => {
-        vscode.window.showErrorMessage(stderr);
+        if (stderr) vscode.window.showErrorMessage(stderr);
       });
     });
   }
@@ -32,7 +33,6 @@ export class Proto3Compiler {
     if (doc.languageId == 'proto') {
       let fileName = path.basename(doc.uri.split(`file://`).splice(1, Number.MAX_VALUE).join(``));
       let args = this._config.getProtocOptions().concat(fileName);
-      vscode.window.showMessage(args.join(` `));
 
       this.runProtoc(args, undefined, (_, stderr) => {
         if (stderr) vscode.window.showErrorMessage(stderr);

@@ -10,7 +10,19 @@ import { Proto3DefinitionProvider } from './proto3Definition';
 export async function activate(context: ExtensionContext): Promise<void> {
   context.subscriptions.push(
     languages.registerCompletionItemProvider(`proto3`, `proto3`, `proto`, new Proto3CompletionItemProvider(), ['.']),
-    languages.registerDefinitionProvider([PROTO3_MODE], new Proto3DefinitionProvider())
+    languages.registerDefinitionProvider([PROTO3_MODE], new Proto3DefinitionProvider()),
+    commands.registerCommand(`proto3.compile.one`, async () => {
+      const doc = (await workspace.getCurrentState()).document;
+      const folder = workspace.getWorkspaceFolder(doc.uri);
+      const compiler = new Proto3Compiler(folder);
+      compiler.compileAProto(doc);
+    }),
+    commands.registerCommand(`proto3.compile.all`, async () => {
+      const doc = (await workspace.getCurrentState()).document;
+      const folder = workspace.getWorkspaceFolder(doc.uri);
+      const compiler = new Proto3Compiler(folder);
+      compiler.compileAllProtos();
+    }),
   );
   workspace.onDidSaveTextDocument((doc) => {
     if (doc.languageId === `proto`) {
@@ -23,5 +35,4 @@ export async function activate(context: ExtensionContext): Promise<void> {
       }
     }
   });
-  commands.registerCommand(`proto3.compile.one`, () => {});
 }
